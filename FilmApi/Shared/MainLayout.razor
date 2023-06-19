@@ -1,19 +1,22 @@
 ﻿@inherits LayoutComponentBase
 
 <PageTitle>FilmApi</PageTitle>
+<body>
+    <header>
+        <h1>FilmTest</h1>
+    </header>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
+        <main>
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+    <footer>
+        <div class="social">
+            <a href="#"><img src="/img/socF.png" class="socialBtn"></a>
+            <a href="#"><img src="/img/socVK.png" class="socialBtn"></a>
+            <a href="#"><img src="/img/socTG.png" class="socialBtn"></a>
         </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+    </footer>
+</body>

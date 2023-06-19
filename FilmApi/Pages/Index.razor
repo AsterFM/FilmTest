@@ -1,9 +1,75 @@
-﻿@page "/"
+﻿@using Newtonsoft.Json.Linq;
+@using FilmApi.Data
+@page "/"
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="posters">
+    @for (int i = 0; i < InfoList.Count; i++)
+    {
+        <div class="poster">
+            <a href="#"><img src="@InfoList[i].Img" class="card"></a>
+            <a href="#" class="filmLink">
+                <h3 class="film filmName">@InfoList[i].Name</h3></a>
+            <p class="film filmYear">@InfoList[i].Year г.</p>
+        </div>
+    }
+</div>
 
-Welcome to your new app.
+<div class="linkDiv">
+    <button @onclick="PrevPage" class="filmLink">PREV</button>
+    <button @onclick="NextPage" class="filmLink">NEXT</button>
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?"/>
+@code 
+{
+    List<Inforamtion> InfoList = new List<Inforamtion>();
+    private int pageCount = 1;
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Run();
+    }
+
+    void Run()
+    {
+        var request = new GetRequest("https://kinobd.ru/api/films?page=" + @pageCount);
+        request.Run();
+
+        var response = request.Response;
+
+        var json = JObject.Parse(response);
+
+        var FilmNames = json["data"];
+
+        foreach (var FilmName in FilmNames)
+        {
+            Inforamtion Info = new Inforamtion();
+            var name = FilmName["name_russian"];
+            Info.Name = Convert.ToString(name);
+            var year = FilmName["year"];
+            Info.Year = Convert.ToString(year);
+            var img = FilmName["small_poster"];
+            Info.Img = Convert.ToString(img);
+            InfoList.Add(Info);
+        }
+    }
+    
+    private void NextPage()
+    {
+        pageCount++;
+        Console.WriteLine("dasdasasad");
+        InfoList.Clear();
+        Run();
+        StateHasChanged();
+    }
+
+    private void PrevPage()
+    {
+        pageCount--;
+        InfoList.Clear();
+        Run();
+        StateHasChanged();
+    }
+}
+
