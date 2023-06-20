@@ -4,6 +4,7 @@
     public class Inforamtion
     {
         public int page = 1;
+        public int number = 1;
         public string Name { get; set; }
 
         public string Year { get; set; }

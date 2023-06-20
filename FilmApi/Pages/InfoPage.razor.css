@@ -1,0 +1,46 @@
+﻿body {
+    width: 1300px;
+    margin: auto;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+}
+
+.flex h1 {
+    font-size: 50px;
+    color: black;
+    padding: 0;
+    margin: 0;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.flex .poster {
+    width: 300px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.desc {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 600px;
+    max-height: 200px;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+
+.aboutFilm {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.aboutFilm p {
+    font-size: 14px;
+    padding: 0;
+    margin: 0;
+    margin-top: 5px;
+}

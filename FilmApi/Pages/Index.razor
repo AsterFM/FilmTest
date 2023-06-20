@@ -1,6 +1,8 @@
 ﻿@using Newtonsoft.Json.Linq;
+@inject NavigationManager NavigationManager
 @using FilmApi.Data
 @page "/"
+
 
 <PageTitle>Index</PageTitle>
 
@@ -8,8 +10,8 @@
     @for (int i = 0; i < InfoList.Count; i++)
     {
         <div class="poster">
-            <a href="#"><img src="@InfoList[i].Img" class="card"></a>
-            <a href="#" class="filmLink">
+            <a href="InfoPage/@Info.page/@i" @onclick="getInfo"><img src="@InfoList[i].Img" class="card"></a>
+            <a href="InfoPage/@Info.page/@i" @onclick="getInfo" class="filmLink">
                 <h3 class="film filmName">@InfoList[i].Name</h3></a>
             <p class="film filmYear">@InfoList[i].Year г.</p>
         </div>
@@ -17,23 +19,48 @@
 </div>
 
 <div class="linkDiv">
-    <button @onclick="PrevPage" class="filmLink">PREV</button>
-    <button @onclick="NextPage" class="filmLink">NEXT</button>
+    <a href="##" class="filmLink" @onclick="Prev"><h2>PREV</h2></a>
+    <a href="##" class="filmLink" @onclick="Next"><h2>NEXT</h2></a>
 </div>
 
-@code 
-{
+@code {
+    int id = 0;
+    Inforamtion Info = new Inforamtion();
     List<Inforamtion> InfoList = new List<Inforamtion>();
-    private int pageCount = 1;
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
         Run();
     }
 
+    protected void Next()
+    {
+        Info.page++;
+        InfoList.Clear();
+        Run();
+        StateHasChanged();
+    }
+
+    protected void Prev()
+    {
+        if (Info.page > 1)
+        {
+            Info.page--;
+            InfoList.Clear();
+            Run();
+            StateHasChanged();
+        }
+    }
+
+    protected void getInfo()
+    {
+    }
+
     void Run()
     {
-        var request = new GetRequest("https://kinobd.ru/api/films?page=" + @pageCount);
+        id = 0;
+        var request = new GetRequest("https://kinobd.ru/api/films?page=" + Info.page);
         request.Run();
 
         var response = request.Response;
@@ -52,24 +79,8 @@
             var img = FilmName["small_poster"];
             Info.Img = Convert.ToString(img);
             InfoList.Add(Info);
+            id++;
         }
-    }
-    
-    private void NextPage()
-    {
-        pageCount++;
-        Console.WriteLine("dasdasasad");
-        InfoList.Clear();
-        Run();
-        StateHasChanged();
-    }
-
-    private void PrevPage()
-    {
-        pageCount--;
-        InfoList.Clear();
-        Run();
-        StateHasChanged();
     }
 }
 

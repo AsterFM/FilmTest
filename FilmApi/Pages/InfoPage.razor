@@ -1,0 +1,77 @@
+﻿@using FilmApi.Data
+@using Newtonsoft.Json.Linq;
+@page "/InfoPage/{page}/{id:int}"
+@inject NavigationManager NavigationManager
+<body>
+    <div class="flex">
+        <img class="poster" src=@Info.BigImg>
+        <div class="info">
+            <h1>@Info.Name</h1>
+            <div class="desc">@Info.Desc</div>
+            <div class="aboutFilm">
+                <p>Год выпуска: @Info.Year г.</p>
+                <p>Рейтинг КП: @Info.RatingKP</p>
+                <p>Рейтинг IMDB: @Info.RatingImdb</p>
+                <p>Продлжительность: @Info.Duration</p>
+                <p>Присмьера в Росии: @Info.InRussian</p>
+                <p>Бюджет: @Info.Dudget</p>
+                <p>Возрастное ограничение: @Info.Pega</p>
+                <p>Страна: @Info.Country</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+@code {
+    [Parameter]
+    public string page { get; set; } = "";
+
+    [Parameter]
+    public int id { get; set; } = 0;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        Run();
+    }
+
+    FullInfo Info = new FullInfo();
+    void Run()
+    {
+        var request = new GetRequest("https://kinobd.ru/api/films?page=" + page);
+        request.Run();
+
+        var response = request.Response;
+
+        var json = JObject.Parse(response);
+
+        var FilmNames = json["data"];
+
+        var FilmName = FilmNames[id];
+        
+        Info = new FullInfo();
+        var name = FilmName["name_russian"];
+        Info.Name = Convert.ToString(name);
+        var year = FilmName["year"];
+        Info.Year = Convert.ToString(year);
+        var img = FilmName["big_poster"];
+        Info.BigImg = Convert.ToString(img);
+        var desc = FilmName["description"];
+        Info.Desc = Convert.ToString(desc);
+        var ratingKp = FilmName["rating_kp"];
+        Info.RatingKP = Convert.ToString(ratingKp);
+        var ratingImdb = FilmName["rating_imdb"];
+        Info.RatingImdb = Convert.ToString(ratingImdb);
+        var duration = FilmName["time"];
+        Info.Duration = Convert.ToString(duration);
+        var inRussia = FilmName["premiere_ru"];
+        Info.InRussian = Convert.ToString(inRussia);
+        var budget = FilmName["budget"];
+        Info.Dudget = Convert.ToString(budget);
+        var pega = FilmName["age_restriction"];
+        Info.Pega = Convert.ToString(pega);
+        var country = FilmName["country_ru"];
+        Info.Country = Convert.ToString(country);
+    }
+
+}
