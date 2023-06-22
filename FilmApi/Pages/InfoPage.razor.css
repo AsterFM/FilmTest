@@ -44,3 +44,24 @@
     margin: 0;
     margin-top: 5px;
 }
+
+.linkDiv {
+    text-align: center;
+}
+
+.linkDiv .filmLink {
+    text-align: center;
+    margin-right: 5px;
+    font-size: 25px;
+}
+
+.filmLink {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+}
+
+.filmLink:hover {
+    text-decoration: none;
+    color: orange;
+}

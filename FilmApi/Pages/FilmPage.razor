@@ -1,0 +1,24 @@
+﻿@using Newtonsoft.Json.Linq;
+@using FilmApi.Data
+
+<div class="posters">
+    @for (int i = 0; i < InfoList.Count; i++)
+    {
+        <div class="poster">
+            <a href="InfoPage/@Info.page/@i" ><img src="@InfoList[i].big_poster" class="card"></a>
+            <a href="InfoPage/@Info.page/@i" class="filmLink">
+                <h3 class="film filmName">@InfoList[i].name_russian</h3></a>
+            <p class="film filmYear">@InfoList[i].year г.</p>
+        </div>
+    }
+</div>
+
+
+
+@code {
+    [Parameter]
+    public List<Data.FilmPage.FilmItem> InfoList { get; set; }
+
+    [Parameter]
+    public Data.FilmPage.FilmItem Info { get; set; }
+}

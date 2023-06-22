@@ -1,0 +1,45 @@
+﻿.poster {
+    border: 2px solid black;
+    width: 210px;
+    height: 330px;
+}
+
+.posters {
+    display: grid;
+    grid-template-columns: 210px 210px 210px 210px;
+    column-gap: 100px;
+    grid-row-gap: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    justify-content: center;
+}
+
+.card {
+    width: 210px;
+    height: 261px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.film {
+    margin: 0;
+    padding: 0;
+}
+
+.filmName {
+    text-align: center;
+}
+
+.filmYear {
+    text-align: center;
+}
+
+.filmLink {
+    text-decoration: none;
+    color: black;
+    text-align: center;
+}
+
+.filmLink:hover {
+    text-decoration: none;
+    color: orange;
+}

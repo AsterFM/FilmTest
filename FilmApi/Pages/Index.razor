@@ -6,17 +6,7 @@
 
 <PageTitle>Index</PageTitle>
 
-<div class="posters">
-    @for (int i = 0; i < InfoList.Count; i++)
-    {
-        <div class="poster">
-            <a href="InfoPage/@Info.page/@i" @onclick="getInfo"><img src="@InfoList[i].Img" class="card"></a>
-            <a href="InfoPage/@Info.page/@i" @onclick="getInfo" class="filmLink">
-                <h3 class="film filmName">@InfoList[i].Name</h3></a>
-            <p class="film filmYear">@InfoList[i].Year г.</p>
-        </div>
-    }
-</div>
+<FilmPage InfoList="InfoList" Info="FilmPage.filmItem"/>
 
 <div class="linkDiv">
     <a href="##" class="filmLink" @onclick="Prev"><h2>PREV</h2></a>
@@ -24,63 +14,34 @@
 </div>
 
 @code {
-    int id = 0;
-    Inforamtion Info = new Inforamtion();
-    List<Inforamtion> InfoList = new List<Inforamtion>();
+
+    Data.FilmPage FilmPage = new Data.FilmPage();
+    List<Data.FilmPage.FilmItem> InfoList = new List<Data.FilmPage.FilmItem>();
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Run();
+        FilmPage.Film(InfoList);
     }
 
     protected void Next()
-    {
-        Info.page++;
+    {  
+        FilmPage.filmItem.page++;
         InfoList.Clear();
-        Run();
+        FilmPage.Film(InfoList);
         StateHasChanged();
     }
 
     protected void Prev()
     {
-        if (Info.page > 1)
+        if (FilmPage.filmItem.page > 1)
         {
-            Info.page--;
+            FilmPage.filmItem.page--;
             InfoList.Clear();
-            Run();
+            FilmPage.Film(InfoList);
             StateHasChanged();
         }
     }
-
-    protected void getInfo()
-    {
-    }
-
-    void Run()
-    {
-        id = 0;
-        var request = new GetRequest("https://kinobd.ru/api/films?page=" + Info.page);
-        request.Run();
-
-        var response = request.Response;
-
-        var json = JObject.Parse(response);
-
-        var FilmNames = json["data"];
-
-        foreach (var FilmName in FilmNames)
-        {
-            Inforamtion Info = new Inforamtion();
-            var name = FilmName["name_russian"];
-            Info.Name = Convert.ToString(name);
-            var year = FilmName["year"];
-            Info.Year = Convert.ToString(year);
-            var img = FilmName["small_poster"];
-            Info.Img = Convert.ToString(img);
-            InfoList.Add(Info);
-            id++;
-        }
-    }
+    
 }
 
